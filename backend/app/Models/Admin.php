@@ -2,36 +2,29 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use \Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Allotment;
 
-class User extends Authenticatable
+class Admin extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string> 
+     * @var array<string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'job',
-        'salary',
-        'expenditure',
-        'budget',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<string>
      */
     protected $hidden = [
         'password',
@@ -42,8 +35,4 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    public function allotments()
-    {
-        return $this->hasMany(Allotment::class);
-    }
 }
