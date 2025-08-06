@@ -54,6 +54,11 @@ class AllotmentController extends Controller
             'end_date' => $data['end_date'],
             'active' => 'active',
         ]);
+        
+        // Update user's total expenditure
+        $totalAllotted += $data['allotment'];  
+        $user->expenditure = $totalAllotted;  
+        $user->save();  
 
         return response()->json([
             'message' => 'Allotment created successfully.',
