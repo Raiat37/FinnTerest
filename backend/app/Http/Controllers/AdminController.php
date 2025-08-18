@@ -9,17 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    // public function __construct()
-    // {
-    //     // Apply the admin check to all methods in this controller
-    //     $this->middleware(function ($request, $next) {
-    //         $adminId = auth()->user()->id ?? null; // Assuming authentication is set up
-    //         if ($adminId !== 1) { // Replace '1' with the specific admin ID
-    //             return response()->json(['error' => 'Unauthorized'], 403);
-    //         }
-    //         return $next($request);
-    //     });
-    // }
     // 1) See list of users with pending profile changes
     public function listPendingUsers()
     {

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('salary');
             $table->integer('expenditure')->nullable();
             $table->integer('budget')->nullable();
+            $table->boolean('profile_pending_approval')->default(false);
             $table->timestamps();
         });
 

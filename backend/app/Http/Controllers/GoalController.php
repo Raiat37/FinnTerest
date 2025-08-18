@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Goal;
+use App\Models\Goals;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -21,7 +21,7 @@ class GoalController extends Controller
 
         $validated['user_id'] = auth()->id();
 
-        $goal = Goal::create($validated);
+        $goal = Goals::create($validated);
 
         return response()->json([
             'message' => 'Goal created successfully',
@@ -32,7 +32,7 @@ class GoalController extends Controller
     // Update status
     public function updateStatus(Request $request, $id)
     {
-        $goal = Goal::where('user_id', auth()->id())->findOrFail($id);
+        $goal = Goals::where('user_id', auth()->id())->findOrFail($id);
 
         $validated = $request->validate([
             'status' => 'required|in:pending,complete'
@@ -62,7 +62,7 @@ class GoalController extends Controller
     // List goals
     public function index()
     {
-        $goals = Goal::where('user_id', auth()->id())->get();
+        $goals = Goals::where('user_id', auth()->id())->get();
         return response()->json($goals);
     }
 }

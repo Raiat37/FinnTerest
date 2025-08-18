@@ -3,11 +3,18 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AllotmentController;
+use App\Http\Controllers\GoalController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategorySpendingController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::post('/logout', [AuthController::class, 'logout']);
     // Allotment routes
     Route::post('/allotments', [AllotmentController::class, 'store']);
     Route::get('/allotments', [AllotmentController::class, 'index']);
@@ -30,11 +37,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/savings/approve/{id}', [AdminController::class, 'approveSavingsRequest']);
 
     // User routes
-    Route::post('/user/profile/update', [UserController::class, 'updateProfile']);
+    Route::get('/me', [UserController::class, 'showProfile']);
+    Route::post('/profile/update', [UserController::class, 'updateProfile']);
     Route::post('/user/savings/submit', [UserController::class, 'submitSavingsRequest']);
 
 });
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout']);
