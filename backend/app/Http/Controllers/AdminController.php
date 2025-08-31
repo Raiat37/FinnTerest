@@ -12,7 +12,7 @@ class AdminController extends Controller
     // 1) See list of users with pending profile changes
     public function listPendingUsers()
     {
-        $users = User::where('profile_pending_approval', true)->get();
+    $users = User::where('profile_pending_approval', false)->where('role', 'user')->get();
         return response()->json($users);
     }
 
@@ -20,7 +20,7 @@ class AdminController extends Controller
     public function approveUserProfile($id)
     {
         $user = User::findOrFail($id);
-        $user->profile_pending_approval = false;
+        $user->profile_pending_approval = true;
         $user->save();
 
         return response()->json(['message' => 'Profile approved']);
@@ -29,17 +29,19 @@ class AdminController extends Controller
     // 2) Update currency exchange rate
     public function updateCurrencyRate(Request $request)
     {
-        $request->validate([
-            'currency_code' => 'required|string',
-            'rate' => 'required|numeric'
+        $data = $request->validate([
+            'currency' => 'required|string|in:dollar,pound',
+            'direction' => 'required|string|in:to,from',
+            'rate' => 'required|numeric|min:0',
         ]);
 
-        DB::table('currency_rates')->updateOrInsert(
-            ['currency_code' => $request->currency_code],
-            ['rate' => $request->rate]
+        // Save in DB or config table
+        CurrencyRate::updateOrCreate(
+            ['currency' => $data['currency'], 'direction' => $data['direction']],
+            ['rate' => $data['rate']]
         );
 
-        return response()->json(['message' => 'Currency rate updated']);
+        return response()->json(['message' => 'Rate updated']);
     }
 
     // 3) Approve savings gateway request
