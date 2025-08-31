@@ -23,13 +23,13 @@ class UserController extends Controller
         $user = Auth::user();
 
         $user->update($request->only([
-            'name', 'email', 'job', 'salary', 'expenditure', 'budget'
+            'name', 'email', 'job', 'salary', 'expenditure'
         ]));
 
         $user->profile_pending_approval = true;
         $user->save();
 
-        return response()->json(['message' => 'Profile update pending admin approval']);
+        return response()->json(['message' => 'Profile update pending approval']);
     }
 
     // 2) Submit savings request
@@ -48,5 +48,18 @@ class UserController extends Controller
         ]);
 
         return response()->json(['message' => 'Savings request submitted']);
+    }
+    // NEW: Update only budget without changing profile_pending_approval state
+    public function updateBudget(Request $request)
+    {
+        $request->validate([
+            'budget' => 'required|numeric|min:0'
+        ]);
+
+        $user = Auth::user();
+        $user->budget = $request->budget;
+        $user->save();
+
+        return response()->json(['message' => 'Budget updated successfully']);
     }
 }

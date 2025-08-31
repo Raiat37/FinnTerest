@@ -23,10 +23,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'job',
-        'salary',
+        'job', // nullable for admin
+        'salary', // nullable for admin
         'expenditure',
         'budget',
+        'role', // 'user' or 'admin'
+        'profile_pending_approval',
     ];
 
     /**
@@ -46,5 +48,9 @@ class User extends Authenticatable
     public function allotments()
     {
         return $this->hasMany(Allotment::class);
+    }
+    public function savingsApplications()
+    {
+        return $this->hasMany(\App\Models\SavingsApplication::class);
     }
 }

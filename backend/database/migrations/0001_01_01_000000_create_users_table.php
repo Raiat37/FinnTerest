@@ -16,19 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('job');
-            $table->integer('salary');
+            $table->string('role')->default('user'); // 'user' or 'admin'
+            $table->string('job')->nullable();
+            $table->integer('salary')->nullable();
             $table->integer('expenditure')->nullable();
             $table->integer('budget')->nullable();
             $table->boolean('profile_pending_approval')->default(false);
-            $table->timestamps();
-        });
-
-        Schema::create('admins', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
             $table->timestamps();
         });
 
@@ -38,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+    Schema::dropIfExists('users');
     }
 };
