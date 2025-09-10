@@ -3,6 +3,8 @@
 FinnTerest is an application to track expenses, generate spending insights, and suggest savings strategies using data patterns. Often in our lives, we happen to come across scenarios when we have more expenses done than income generated, leading us to a problematic situation. This happens more in case of university students or new job holders. By entering salary, budget and allotment based expenses, the program aims at making it easy for the users to keep a track of their spendings. Additionally the program implements stock market and financial website news and keeps a split calculator for little calculations that one might need on the go.
 
 
+
+
 ℹ️ Quick summary: a Laravel backend + TypeScript + Vite frontend for personal finance tracking and savings suggestions.
 
 ## Table of contents
@@ -140,3 +142,4 @@ Guidelines:
 
 
 If you need help or want to collaborate, open an issue or reach out to the repository owner.
+
