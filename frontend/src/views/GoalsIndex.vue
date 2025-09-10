@@ -72,6 +72,22 @@
                     <span class="font-semibold">Status:</span> {{ g.status }}
                   </p>
                 </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-3">
+                  <!-- Show mark complete for pending or non-complete goals -->
+                  <button
+                    v-if="g.status !== 'complete'"
+                    @click="markComplete(g)"
+                    :disabled="!!completing[g.id]"
+                    class="bg-[#547164] text-white px-3 py-1.5 rounded-md font-semibold hover:opacity-90 disabled:opacity-50"
+                  >
+                    {{ completing[g.id] ? 'Saving…' : 'Mark complete' }}
+                  </button>
+
+                  <!-- Completed indicator -->
+                  <span v-else class="px-3 py-1.5 rounded-md bg-green-100 text-green-800 font-semibold">Completed</span>
+                </div>
               </div>
             </li>
           </ul>
@@ -101,6 +117,9 @@ const goals = ref<Goal[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
 
+// Track per-goal completion loading state
+const completing = ref<Record<number, boolean>>({})
+
 const fetchGoals = async () => {
   loading.value = true
   error.value = null
@@ -124,6 +143,34 @@ const fmt = (d: string) => {
     return dt.toLocaleDateString()
   } catch {
     return d
+  }
+}
+
+async function markComplete(goal: Goal) {
+  // guard
+  if (!goal || !goal.id) return
+
+  // Avoid double-submission
+  completing.value = { ...completing.value, [goal.id]: true }
+  error.value = null
+
+  try {
+    const payload = { status: 'complete' }
+    const res = await api.patch(`/api/goals/${goal.id}/status`, payload)
+    // Update local list: set status and optionally completion_date if returned
+    const updated = res.data?.goal ?? res.data
+    // If API returned updated object, use it; otherwise set status locally
+    if (updated && typeof updated === 'object' && updated.id === goal.id) {
+      const idx = goals.value.findIndex(g => g.id === goal.id)
+      if (idx !== -1) goals.value[idx] = { ...goals.value[idx], ...updated }
+    } else {
+      const idx = goals.value.findIndex(g => g.id === goal.id)
+      if (idx !== -1) goals.value[idx].status = 'complete'
+    }
+  } catch (e: any) {
+    error.value = e?.response?.data?.message || e?.message || 'Failed to update goal status.'
+  } finally {
+    completing.value = { ...completing.value, [goal.id]: false }
   }
 }
 
