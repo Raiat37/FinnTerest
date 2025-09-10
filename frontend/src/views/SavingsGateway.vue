@@ -26,7 +26,7 @@
               <div class="space-y-2">
                 <label class="flex items-center gap-2">
                   <input type="radio" value="auto" v-model="form.mode" />
-                  Auto (salary − budget)
+                  Auto (Use surplus)
                 </label>
                 <label class="flex items-center gap-2">
                   <input type="radio" value="manual" v-model="form.mode" />
@@ -45,7 +45,7 @@
                 type="number"
                 v-model.number="form.amount"
                 placeholder="5000"
-                class="w-full rounded-lg border p-2 text-black"
+                class="w-full rounded-lg border p-2 text-black bg-white"
               />
             </div>
 
@@ -58,7 +58,7 @@
               <input
                 type="month"
                 v-model="monthInput"
-                class="w-full rounded-lg border p-2 text-black"
+                class="w-full rounded-lg border p-2 text-black bg-white"
               />
               <p class="text-xs mt-1">Defaults to current month</p>
             </div>

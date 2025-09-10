@@ -2,7 +2,7 @@
   <div class="space-y-1">
     <label class="block text-sm font-medium">Choose Bank</label>
     <select
-      class="w-full rounded-lg border p-2"
+      class="w-full rounded-lg border p-2 bg-white text-black"
       v-model="model"
       :disabled="disabled || loading"
     >

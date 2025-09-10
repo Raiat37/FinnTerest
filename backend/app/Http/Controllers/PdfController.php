@@ -11,7 +11,7 @@ class PdfController extends Controller
     {
         $user = $request->user();
 
-        // Build a simple HTML (no Blade) based on your users table
+        // Build a simple HTML (no Blade) based on your users table but with a top green bar
         $html = <<<HTML
 <!doctype html>
 <html>
@@ -27,17 +27,21 @@ class PdfController extends Controller
   table { width:100%; border-collapse: collapse; }
   td { padding:6px 0; vertical-align: top; }
   .label { width:180px; font-weight:bold; }
+
+  /* Top green header */
+  .topbar { background: #547164; color: #fff; padding: 12px 16px; border-radius: 6px; margin-bottom:12px; }
+  .topbar .title { font-weight:700; font-size:16px; }
 </style>
 </head>
 <body>
-  <h1>FinnTerest — User Report</h1>
+  <div class="topbar"><div class="title">
+  <h1>FinnTerest — User Report</h1></div></div>
   <div class="muted">Generated on {$this->esc(now()->format('d M Y, h:i A'))}</div>
 
   <div class="card">
     <table>
       <tr><td class="label">Name</td><td>{$this->esc($user->name)}</td></tr>
       <tr><td class="label">Email</td><td>{$this->esc($user->email)}</td></tr>
-      <tr><td class="label">Role</td><td>{$this->esc($user->role)}</td></tr>
       <tr><td class="label">Job</td><td>{$this->esc($user->job ?? '—')}</td></tr>
       <tr><td class="label">Salary</td><td>{$this->money($user->salary)}</td></tr>
       <tr><td class="label">Expenditure</td><td>{$this->money($user->expenditure)}</td></tr>

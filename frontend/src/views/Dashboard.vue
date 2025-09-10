@@ -42,21 +42,21 @@
             <div class="flex items-center justify-between">
               <dt class="text-lg font-semibold text-[#1d1d1f]">Current Salary:</dt>
               <dd class="text-xl font-extrabold tracking-wide">
-                {{ formatBDT(salary) }} BDT
+                {{ formatBDT(salary) }} 
               </dd>
             </div>
 
             <div class="flex items-center justify-between">
               <dt class="text-lg font-semibold text-[#1d1d1f]">Current Expenses:</dt>
               <dd class="text-xl font-extrabold tracking-wide">
-                {{ formatBDT(expenses) }} BDT
+                {{ formatBDT(expenses) }} 
               </dd>
             </div>
 
             <div class="flex items-center justify-between">
               <dt class="text-lg font-semibold text-[#1d1d1f]">Current Budget:</dt>
               <dd class="text-xl font-extrabold tracking-wide">
-                {{ formatBDT(budget) }} BDT
+                {{ formatBDT(budget) }} 
               </dd>
             </div>
           </dl>

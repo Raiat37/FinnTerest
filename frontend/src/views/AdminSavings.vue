@@ -1,79 +1,68 @@
 <template>
-  <div class="min-h-screen bg-[#e7e7e9] flex flex-col">
-    <header class="w-full bg-[#547164] px-6 py-4 flex items-center justify-between">
-      <h1 class="text-white text-2xl font-extrabold">Admin • Savings Requests</h1>
-      <router-link
-        class="bg-white text-[#547164] px-4 py-2 rounded-lg font-semibold hover:bg-gray-100"
-        to="/"
+  <div class="w-full">
+    <div class="w-full px-0 py-0">
+      <div
+        class="w-full bg-[#547164] text-white rounded-lg p-6 shadow ring-2 ring-gray-400"
+        style="border-radius:12px"
       >
-        Back
-      </router-link>
-    </header>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+          <h2 class="text-2xl font-extrabold ">Applications</h2>
+          <select v-model="status" class="rounded-lg border p-2 text-black bg-white">
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
 
-    <main class="flex-1 grid place-items-center px-4 py-8">
-      <div class="w-full max-w-5xl">
-        <section
-          class="bg-[#547164] text-white rounded-lg p-8 shadow ring-2 ring-blue-400"
-        >
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <h2 class="text-2xl font-extrabold">Applications</h2>
-            <select v-model="status" class="rounded-lg border p-2 text-black">
-              <option value="">All</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
+        <div v-if="loading" class="text-sm">Loading…</div>
 
-          <div v-if="loading" class="text-sm">Loading…</div>
+        <ul v-else class="divide-y divide-white/30">
+          <li
+            v-for="a in apps"
+            :key="a.id"
+            class="py-4 grid md:grid-cols-12 items-center gap-3"
+          >
+            <div class="md:col-span-4">
+              <div class="font-bold">{{ a.user?.name }} ({{ a.user?.email }})</div>
+              <div class="text-sm opacity-90">{{ a.bank?.name }} • {{ a.period_month }}</div>
+            </div>
 
-          <ul v-else class="divide-y divide-white/30">
-            <li
-              v-for="a in apps"
-              :key="a.id"
-              class="py-4 grid md:grid-cols-12 items-center gap-3"
-            >
-              <div class="md:col-span-4">
-                <div class="font-bold">{{ a.user?.name }} ({{ a.user?.email }})</div>
-                <div class="text-sm opacity-90">{{ a.bank?.name }} • {{ a.period_month }}</div>
-              </div>
+            <div class="md:col-span-2">
+              <div class="font-semibold">{{ Number(a.amount).toFixed(2) }}</div>
+              <div class="text-sm opacity-90">BDT</div>
+            </div>
 
-              <div class="md:col-span-2">
-                <div class="font-semibold">{{ Number(a.amount).toFixed(2) }}</div>
-                <div class="text-sm opacity-90">BDT</div>
-              </div>
+            <div class="md:col-span-2 font-semibold" :class="statusClass(a.status)">
+              {{ a.status }}
+            </div>
 
-              <div class="md:col-span-2 font-semibold" :class="statusClass(a.status)">
-                {{ a.status }}
-              </div>
+            <div class="md:col-span-4 flex items-center gap-2 md:justify-end">
+              <a
+                v-if="a.bank?.website_url"
+                :href="a.bank.website_url"
+                target="_blank"
+                class="underline text-sm"
+              >Bank site</a>
 
-              <div class="md:col-span-4 flex items-center gap-2 md:justify-end">
-                <a
-                  v-if="a.bank?.website_url"
-                  :href="a.bank.website_url"
-                  target="_blank"
-                  class="underline text-sm"
-                >Bank site</a>
+              <button
+                v-if="a.status==='pending'"
+                class="px-3 py-1.5 rounded-lg bg-white text-[#547164] font-semibold"
+                @click="approve(a.id)"
+              >Approve</button>
 
-                <button
-                  v-if="a.status==='pending'"
-                  class="px-3 py-1.5 rounded-lg bg-white text-[#547164] font-semibold"
-                  @click="approve(a.id)"
-                >Approve</button>
+              <button
+                v-if="a.status==='pending'"
+                class="px-3 py-1.5 rounded-lg bg-red-600 text-white"
+                @click="reject(a.id)"
+              >Reject</button>
+            </div>
+          </li>
+        </ul>
 
-                <button
-                  v-if="a.status==='pending'"
-                  class="px-3 py-1.5 rounded-lg bg-red-600 text-white"
-                  @click="reject(a.id)"
-                >Reject</button>
-              </div>
-            </li>
-          </ul>
-
-          <p v-if="error" class="mt-3 text-red-300 text-sm">{{ error }}</p>
-        </section>
+        <p v-if="error" class="mt-3 text-red-300 text-sm">{{ error }}</p>
       </div>
-    </main>
+    </div>
   </div>
 </template>
 

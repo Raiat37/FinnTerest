@@ -55,19 +55,14 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Admin routes (require role=admin)
     $adminRoutes = function() {
-        Route::get('/admin/users/pending', [AdminController::class, 'ListPendingUsers']);
+        Route::get('/admin/users/pending', [AdminController::class, 'listPendingUsers']);
         Route::post('/admin/users/approve/{id}', [AdminController::class, 'approveUserProfile']);
-        Route::post('/admin/currency/update', [AdminController::class, 'updateCurrencyRate']);
-        Route::get('/admin/savings/pending', [AdminController::class, 'listSavingsRequests']);
-        Route::post('/admin/savings/approve/{id}', [AdminController::class, 'approveSavingsRequest']);
-        Route::post('/admin/set-rate', [CalculatorController::class, 'setRate']);    // admin set exchange rate
+        // Currency rates via dedicated controller
         // Admin savings flow
         Route::get('/admin/savings', [SavingsAdminController::class, 'index']);
         Route::post('/admin/savings/{id}/approve', [SavingsAdminController::class, 'approve']);
         Route::post('/admin/savings/{id}/reject', [SavingsAdminController::class, 'reject']);
-        Route::post('/admin/currency-rates', [AdminController::class, 'updateCurrencyRate']);
-
-        Route::post('/admin/set-rate', [CalculatorController::class, 'setRate']);
+        // Remove legacy currency routes; use below endpoints instead
 
         // list all rates
         Route::get('/admin/exchange-rates', [ExchangeRateController::class, 'index']);
