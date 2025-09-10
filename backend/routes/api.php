@@ -36,11 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
+
     // Allotment routes
     Route::post('/allotments', [AllotmentController::class, 'store']);
     Route::get('/allotments', [AllotmentController::class, 'index']);
-    // Uncomment the following line if needed
-    // Route::post('/allotments/refresh-status', [AllotmentController::class, 'refreshStatus']);
 
     // Goals routes
     Route::get('/goals', [GoalController::class, 'index']);
@@ -57,12 +56,12 @@ Route::middleware('auth:sanctum')->group(function () {
     $adminRoutes = function() {
         Route::get('/admin/users/pending', [AdminController::class, 'listPendingUsers']);
         Route::post('/admin/users/approve/{id}', [AdminController::class, 'approveUserProfile']);
-        // Currency rates via dedicated controller
+        Route::post('/admin/users/reject/{id}', [AdminController::class, 'rejectUserProfile']);
+    
         // Admin savings flow
         Route::get('/admin/savings', [SavingsAdminController::class, 'index']);
         Route::post('/admin/savings/{id}/approve', [SavingsAdminController::class, 'approve']);
         Route::post('/admin/savings/{id}/reject', [SavingsAdminController::class, 'reject']);
-        // Remove legacy currency routes; use below endpoints instead
 
         // list all rates
         Route::get('/admin/exchange-rates', [ExchangeRateController::class, 'index']);
@@ -84,8 +83,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // New route for updating budget
     Route::post('/update-budget', [UserController::class, 'updateBudget']);
 
-
-    // Banks
     
     // User savings flow
     Route::get('/savings/applications', [SavingsGatewayController::class, 'index']);

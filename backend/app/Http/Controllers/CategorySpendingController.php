@@ -11,9 +11,8 @@ class CategorySpendingController extends Controller
 {
     public function index()
     {
-        $userId = auth()->id(); // current logged-in user
+        $userId = auth()->id(); 
 
-        // Fetch and group allotments by category (assuming "description" is the category name)
         $data = Allotment::select(
                 'description as category',
                 DB::raw('SUM(allotment) as spent'),

@@ -27,10 +27,10 @@
                 />
               </template>
 
-              <!-- Labels (skip very small slices to avoid overlap) -->
+              <!-- Labels  -->
               <template v-for="(seg, i) in labeledSegments" :key="`label-${i}`">
                 <g :transform="`translate(${seg.cx} ${seg.cy})`">
-                  <!-- text with outline for contrast -->
+                  
                   <text
                     text-anchor="middle"
                     dominant-baseline="middle"
@@ -111,7 +111,7 @@ onMounted(async () => {
 // SVG Pie settings
 const svgSize = 520
 const radius = 200
-const labelRadius = 130 // where labels sit (slightly inside the slice)
+const labelRadius = 130 
 const center = svgSize / 2
 const COLOR_ACTIVE = '#facc15'   // yellow
 const COLOR_EXPIRED = '#fb7185'  // red

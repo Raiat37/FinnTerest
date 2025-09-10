@@ -23,4 +23,27 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Profile approved']);
     }
+
+    // Reject user profile change
+    public function rejectUserProfile($id)
+    {
+        $user = User::findOrFail($id);
+        
+        $user->profile_pending_approval = false;
+
+        
+        if (method_exists($user, 'setAttribute')) {
+           
+            try {
+                if (array_key_exists('profile_rejected_at', $user->getAttributes())) {
+                    $user->profile_rejected_at = now();
+                }
+            } catch (\Throwable $e) {
+            }
+        }
+
+        $user->save();
+
+        return response()->json(['message' => 'Profile rejected']);
+    }
 }

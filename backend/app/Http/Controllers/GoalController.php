@@ -44,9 +44,7 @@ class GoalController extends Controller
 
             // Check if completed within end date -> award badge
             if (Carbon::now()->lte(Carbon::parse($goal->end_date))) {
-                // You can implement badge award logic here
-                // Example:
-                // auth()->user()->badges()->create(['type' => 'milestone_completed']);
+                
             }
         }
 

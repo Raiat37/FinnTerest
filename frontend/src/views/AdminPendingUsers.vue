@@ -17,13 +17,21 @@
           <div class="truncate">{{ u.name }}</div>
           <div class="truncate">{{ u.email }}</div>
           <div class="truncate">{{ u.job || '—' }}</div>
-          <div class="text-right">
+          <div class="text-right flex justify-end gap-2">
             <button
               class="bg-[#3a3a06] text-white px-3 py-1.5 rounded hover:opacity-90 disabled:opacity-50"
-              :disabled="approvingId === u.id"
+              :disabled="approvingId === u.id || rejectingId === u.id"
               @click="approve(u.id)"
             >
               {{ approvingId === u.id ? 'Approving...' : 'Approve' }}
+            </button>
+
+            <button
+              class="bg-red-600 text-white px-3 py-1.5 rounded hover:opacity-90 disabled:opacity-50"
+              :disabled="approvingId === u.id || rejectingId === u.id"
+              @click="reject(u.id)"
+            >
+              {{ rejectingId === u.id ? 'Rejecting...' : 'Reject' }}
             </button>
           </div>
         </div>
@@ -50,6 +58,7 @@ type PendingUser = {
 const users = ref<PendingUser[]>([])
 const loading = ref(false)
 const approvingId = ref<number | null>(null)
+const rejectingId = ref<number | null>(null)
 const message = ref('')
 const ok = ref(true)
 
@@ -80,6 +89,22 @@ async function approve(id: number) {
     message.value = e?.response?.data?.message || 'Approval failed'
   } finally {
     approvingId.value = null
+  }
+}
+
+async function reject(id: number) {
+  rejectingId.value = id
+  message.value = ''
+  try {
+    await api.post(`/api/admin/users/reject/${id}`)
+    ok.value = true
+    message.value = 'Rejected user successfully'
+    await loadPending()
+  } catch (e: any) {
+    ok.value = false
+    message.value = e?.response?.data?.message || 'Rejection failed'
+  } finally {
+    rejectingId.value = null
   }
 }
 

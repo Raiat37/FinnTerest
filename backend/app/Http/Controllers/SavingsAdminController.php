@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 
 class SavingsAdminController extends Controller
 {
-    // GET /admin/savings (optional: filter by status)
+    // GET /admin/savings 
     public function index(Request $request)
     {
-        $status = $request->query('status'); // pending/approved/rejected
+        $status = $request->query('status'); 
         $q = SavingsApplication::with(['user:id,name,email', 'bank:id,name,website_url'])
             ->orderBy('status')
             ->orderByDesc('created_at');

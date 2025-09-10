@@ -17,19 +17,16 @@ class CalculatorController extends Controller
 
         $expr = trim((string) $request->input('expression'));
 
-        // Allow only digits, spaces, decimal dot, parentheses, and + - * / 
-        // Use ~ as the regex delimiter to avoid / escaping issues.
+        
         if (!preg_match('~^[0-9+\-\*\/().\s]+$~', $expr)) {
             return response()->json(['error' => 'Invalid characters in expression'], 422);
         }
 
         try {
-            // Convert PHP warnings (e.g., division by zero) to exceptions
             set_error_handler(function ($errno, $errstr) {
                 throw new \ErrorException($errstr, $errno);
             });
 
-            // Evaluate (BODMAS handled by PHP expression parsing)
             $result = eval('return (' . $expr . ');');
 
             restore_error_handler();
@@ -67,7 +64,7 @@ class CalculatorController extends Controller
         // Get exchange rates (BDT per 1 unit foreign currency)
         $rates = ExchangeRate::pluck('rate', 'currency')->toArray();
 
-        // Helper: get BDT value of 1 unit
+    
         $bdtPerUnit = fn($code) => $code === 'BDT' ? 1 : ($rates[$code] ?? null);
 
         $fromRate = $bdtPerUnit($from);
@@ -84,19 +81,4 @@ class CalculatorController extends Controller
         return response()->json(['result' => round($result, 2)]);
     }
 
-    // Admin: update or set rate
-    public function setRate(Request $request)
-    {
-        $request->validate([
-            'currency' => 'required|string|in:USD,GBP,EUR,INR',
-            'rate'     => 'required|numeric|min:0',
-        ]);
-
-        ExchangeRate::updateOrCreate(
-            ['currency' => strtoupper($request->currency)],
-            ['rate' => $request->rate]
-        );
-
-        return response()->json(['message' => 'Rate updated']);
-    }
 }

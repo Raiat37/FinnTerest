@@ -11,7 +11,7 @@
       <div class="w-full max-w-2xl bg-[#547164] text-white rounded-lg p-8 shadow" style="border-radius:12px">
         <h2 class="text-2xl font-extrabold text-center mb-8">Update Allotment</h2>
 
-        <!-- two-column feel like the mock: labels left, inputs right -->
+        <!-- labels left, inputs right -->
         <form @submit.prevent="submit" class="mx-auto w-[88%]">
           <div class="grid grid-cols-[1fr_1.2fr] gap-y-4 gap-x-6 items-center">
             <label class="text-[15px] opacity-95">Allotment</label>
@@ -84,11 +84,11 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppButton from '@/components/AppButton.vue'
-import api from '@/lib/api' // axios instance (Bearer, withCredentials: false)
+import api from '@/lib/api' 
 
 const router = useRouter()
 
-// hidden field: current user's id used by controller
+
 const userId = ref<number | null>(null)
 
 type AllotmentForm = {
@@ -110,10 +110,10 @@ const error = ref('')
 const success = ref('')
 const remaining = ref<number | null>(null)
 
-// get current user id once (stateless API should allow GET /api/me)
+// get current user id 
 onMounted(async () => {
   try {
-    const { data } = await api.get('/api/me') // or '/api/user'
+    const { data } = await api.get('/api/me') 
     userId.value = data?.id ?? data?.user?.id ?? null
   } catch {
     userId.value = null
@@ -178,7 +178,7 @@ async function submit() {
     if (status === 201) {
       success.value = data?.message || 'Allotment created successfully.'
       remaining.value = data?.remaining_budget ?? null
-      // keep values so user can see remaining; "Add new" lets them clear for next
+      
     } else {
       success.value = 'Allotment created.'
     }

@@ -24,10 +24,14 @@ FinnTerest is an application to track expenses, generate spending insights, and 
 
 - 💸 Expense tracking: add, edit, and categorize transactions.
 - 📊 Spending insights: charts and summarized analytics to show trends and category breakdowns.
-- 🎯 Savings recommendations: personalized suggestions based on historical spending patterns and goals.
-- 🔁 Recurring transactions: handle repeating income and recurring bills.
-- 👥 Multi-user support (planned/partial): account-based data isolation and roles.
 - 🔒 Authentication & Tokens: personal access tokens and role checking for APIs (Laravel Sanctum compatible).
+- 📅 Set Monthly Budget: define and monitor personal budget limits each month.
+- 📊 Category-Wise Spending Chart & Tracker: visualize spending by category and track against remaining budget.
+- 🎯 Goal Creation & Viewing: set and monitor savings or spending goals.
+- 📈 Stock Market Insights: display real-time/updated market trends with a ribbon on the homepage and top 5 stocks in the dashboard.
+- 🧮 Simple Calculator: quick calculations (e.g., splitting bills among friends).
+- 🏦 Savings Gateway: save leftover monthly budget directly via linked bank routes.
+- 📑 Export Monthly Report as PDF: generate a detailed monthly progress report in PDF format.
 - ⚡ Fast frontend: Vite + TypeScript + Vue for a responsive UI.
 
 
