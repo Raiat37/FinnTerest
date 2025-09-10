@@ -60,9 +60,7 @@ class SavingsGatewayController extends Controller
             $amount = (float) $validated['amount'];
         }
 
-        // Prevent duplicate application for same month:
-        // - if there is a pending/approved application -> block
-        // - if there is a rejected application -> reuse/update it (avoid unique constraint)
+    
         $existing = SavingsApplication::where('user_id', $user->id)
             ->whereDate('period_month', $period)
             ->first();

@@ -8,7 +8,7 @@ use App\Models\SavingsRequest;
 
 class UserController extends Controller
 {
-    // NEW: View own profile
+    // View own profile
     public function showProfile(Request $request)
     {
         $user = $request->user()->makeHidden(['password', 'remember_token']);
@@ -17,7 +17,7 @@ class UserController extends Controller
         ]);
     }
 
-    // 1) Edit profile (pending approval)
+    // Edit profile (pending approval)
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
@@ -32,7 +32,7 @@ class UserController extends Controller
         return response()->json(['message' => 'Profile update pending approval']);
     }
 
-    // 2) Submit savings request
+    // Submit savings request
     public function submitSavingsRequest(Request $request)
     {
         $request->validate([
@@ -49,7 +49,7 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Savings request submitted']);
     }
-    // NEW: Update only budget without changing profile_pending_approval state
+    // pdate budget 
     public function updateBudget(Request $request)
     {
         $request->validate([

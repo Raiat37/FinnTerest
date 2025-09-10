@@ -11,7 +11,6 @@ class PdfController extends Controller
     {
         $user = $request->user();
 
-        // Build a simple HTML (no Blade) based on your users table but with a top green bar
         $html = <<<HTML
 <!doctype html>
 <html>
@@ -28,7 +27,6 @@ class PdfController extends Controller
   td { padding:6px 0; vertical-align: top; }
   .label { width:180px; font-weight:bold; }
 
-  /* Top green header */
   .topbar { background: #547164; color: #fff; padding: 12px 16px; border-radius: 6px; margin-bottom:12px; }
   .topbar .title { font-weight:700; font-size:16px; }
 </style>
@@ -55,7 +53,7 @@ HTML;
 
         $pdf = Pdf::loadHTML($html)->setPaper('a4');
 
-        // Send as an attachment so your existing code downloads it
+        // Send as an attachment 
         $filename = 'finnterest-summary-'.$user->id.'.pdf';
         return $pdf->download($filename);
     }
